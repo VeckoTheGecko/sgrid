@@ -15,3 +15,12 @@ People who have contributed to this standard:
 - Rich Signell
 - Filipe Fernandes
 - Chris Barker
+
+## Development
+
+This project uses [Pixi](https://pixi.prefix.dev/latest/installation/). Once installed, run:
+
+```shell
+pixi install
+pixi task list
+```
