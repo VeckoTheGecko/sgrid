@@ -1,0 +1,37 @@
+[workspace]
+authors = ["Sgrid developers"]
+channels = ["conda-forge"]
+name = "sgrid"
+platforms = ['linux-64', 'win-64', "osx-arm64", 'osx-64']
+version = "0.1.0"
+
+
+[feature.docs.dependencies]
+
+
+[feature.notebooks.dependencies]
+jupyter = "*"
+
+[feature.tikz-magic.pypi-dependencies]
+ipython-tikzmagic = { git = "https://github.com/michakraus/ipython-tikzmagic.git" }
+
+[feature.tikz-magic.dependencies]
+ipython = "<8"
+pdflatex = "*"
+
+[feature.docs.tasks]
+docs = { cmd = "mkdocs serve", description = "Build and auto-rebuild the documentation on changes." }
+docs-build = { cmd = "mkdocs build", description = "Build the documentation." }
+
+[feature.pre-commit.dependencies]
+pre_commit = "*"
+
+[feature.pre-commit.tasks]
+lint = { cmd = "pre-commit run --all-files", description = "Run all pre-commit linting hooks." }
+
+[environments]
+pre-commit = { features = ["pre-commit"] }
+docs = { features = ["docs"] }
+notebooks = { features = ["notebooks", "tikz-magic"] }
+
+
