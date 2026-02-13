@@ -1,4 +1,8 @@
 site_name: Staggered Grid data model (SGRID)
-site_url: http://sgrid.github.io
+site_url: http://VeckoTheGecko.github.io/sgrid # TODO: Update
 theme:
   name: material
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
