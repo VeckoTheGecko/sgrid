@@ -18,9 +18,9 @@ but it doesn't capture the relationship of the variables as computed by a numeri
 This becomes a problem if you don't want to just look at the big picture of the model results,
 but also at the details at the grid resolution:
 
-* What is the exact meaning of a flux on the output file in discrete terms?
-* Can we verify the mass balance?
-* Can the data be used for restarting the model?
+- What is the exact meaning of a flux on the output file in discrete terms?
+- Can we verify the mass balance?
+- Can the data be used for restarting the model?
 
 Correctly handling the staggered data has always been a crucial element of model post-processing tools. In the UGRID conventions, we have defined the (unstructured) grid as a separate entity on the file which consists of nodes and connections of nodes defining edges, faces, and volumes.
 For a structured (staggered) grid we are currently lacking a consistent convention. Although one could store structured grid data using UGRID conventions,
@@ -34,13 +34,12 @@ This is an attempt to bring conventions for structured grids on par with those f
 Consistent with the UGRID conventions we use the following terms for points,
 lines, and cells that make up a grid.
 
-
-|Dimensionality |Name   |Comments                                                                                                                 |
-|---------------|-------|-------------------------------------------------------------------------------------------------------------------------|
-|0              |node   |A point, a coordinate pair or triplet: the most basic element of the topology (also known as "vertex").                  |
-|1              |edge   |A line or curve bounded by two nodes.                                                                                    |
-|2              |face   |A plane or surface enclosed by a set of edges. In a Cartesian 2D model, you might refer to this as a "cell" or "square". |
-|3              |volume |A volume enclosed by a set of faces.                                                                                     |
+| Dimensionality | Name   | Comments                                                                                                                 |
+| -------------- | ------ | ------------------------------------------------------------------------------------------------------------------------ |
+| 0              | node   | A point, a coordinate pair or triplet: the most basic element of the topology (also known as "vertex").                  |
+| 1              | edge   | A line or curve bounded by two nodes.                                                                                    |
+| 2              | face   | A plane or surface enclosed by a set of edges. In a Cartesian 2D model, you might refer to this as a "cell" or "square". |
+| 3              | volume | A volume enclosed by a set of faces.                                                                                     |
 
 In the UGRID conventions the focus is on describing the topology of the mesh (connectivity of the nodes, edges, faces, and volumes as appropriate).
 The topology of a structured grid is inherently defined;
@@ -49,32 +48,32 @@ Still we need to distinguish between 2D and 3D grids (1D conventions may be defi
 
 ### 2D grid
 
-|Required topology attributes |Value                                                                                               |
-|-----------------------------|----------------------------------------------------------------------------------------------------|
-|cf_role                      |grid_topology                                                                                       |
-|topology_dimension           | 2                                                                                                  |
-|node_dimensions              |node_dimension1 node_dimension2                                                                     |
-|face_dimensions              |face_dimension1:node_dimension1 (padding:*type1*) face_dimension2:node_dimension2 (padding:*type2*) |
+| Required topology attributes | Value                                                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
+| cf_role                      | grid_topology                                                                                         |
+| topology_dimension           | 2                                                                                                     |
+| node_dimensions              | node_dimension1 node_dimension2                                                                       |
+| face_dimensions              | face*dimension1:node_dimension1 (padding:\_type1*) face*dimension2:node_dimension2 (padding:\_type2*) |
 
-|Optional attributes          |Default value                                                                                       |
-|-----------------------------|----------------------------------------------------------------------------------------------------|
-|edge1_dimensions             |node_dimension1 face_dimension2:node_dimension2 (padding:*type2*)                                   |
-|edge2_dimensions             |face_dimension1:node_dimension1 (padding:*type1*) node_dimension2                                   |
-|node_coordinates             |                                                                                                    |
-|edge1_coordinates            |
-|edge2_coordinates            |                                                                                                    |
-|face_coordinate              |                                                                                                    |
-|vertical_dimensions          |                                                                                                    |
-                                                                                           |
+| Optional attributes | Default value                                                      |
+| ------------------- | ------------------------------------------------------------------ |
+| edge1_dimensions    | node*dimension1 face_dimension2:node_dimension2 (padding:\_type2*) |
+| edge2_dimensions    | face*dimension1:node_dimension1 (padding:\_type1*) node_dimension2 |
+| node_coordinates    |                                                                    |
+| edge1_coordinates   |
+| edge2_coordinates   |                                                                    |
+| face_coordinate     |                                                                    |
+| vertical_dimensions |                                                                    |
+|                     |
 
 where the padding type may be one of the four literal strings:
-"none", "low", "high", or "both" depending on whether the face_dimension is one shorter than the corresponding node_dimension (padding:none),
+"none", "low", "high", or "both" depending on whether the face*dimension is one shorter than the corresponding node_dimension (padding:none),
 one longer than the corresponding node_dimension (padding:both),
 or of equal length with one extra value stored on the low or high end of the dimension (see the figure below).
 The edge1_dimensions and edge2_dimensions attributes may be used to define separate dimensions for the edges (see the ROMS example below),
 but by default the edge dimensions are assumed to be consistent with the dimensions used by the edges and faces respectively.
 The optional vertical_dimensions attribute may be used to specify the names of the dimensions for the layers and layer interfaces respectively using the same syntax:
-layer_dimension:layer_interface_dimension (padding:*type*).
+layer_dimension:layer_interface_dimension (padding:\_type*).
 
 Note:
 
@@ -132,25 +131,25 @@ variables:
 
 ### 3D grid
 
-|Required topology attributes |Value                                                                                                                                                 |
-|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-|cf_role                      |grid_topology             |
-|topology_dimension           | 3                        |
-|node_dimensions              |node_dimension1 node_dimension2 node_dimension3  |
-|volume_dimensions            |face_dimension1:node_dimension1 (padding:*type1*) face_dimension2:node_dimension2 (padding:*type2*) face_dimension3:node_dimension3 (padding:*type3*) |
+| Required topology attributes | Value                                                                                                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cf_role                      | grid_topology                                                                                                                                            |
+| topology_dimension           | 3                                                                                                                                                        |
+| node_dimensions              | node_dimension1 node_dimension2 node_dimension3                                                                                                          |
+| volume_dimensions            | face*dimension1:node_dimension1 (padding:\_type1*) face*dimension2:node_dimension2 (padding:\_type2*) face*dimension3:node_dimension3 (padding:\_type3*) |
 
-|Optional attributes          |Default value                                                                                                                                         |
-|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-|edge1_dimensions             |face_dimension1:node_dimension1 (padding:*type1*) node_dimension2 node_dimension3                                                                     |
-|edge2_dimensions             |node_dimension1 face_dimension2:node_dimension2 (padding:*type2*) node_dimension3                                                                     |
-|edge3_dimensions             |node_dimension1 node_dimension2 face_dimension3:node_dimension3 (padding:*type3*)                                                                     |
-|face1_dimensions             |node_dimension1 face_dimension2:node_dimension2 (padding:*type2*) face_dimension3:node_dimension3 (padding:*type3*)                                   |
-|face2_dimensions             |face_dimension1:node_dimension1 (padding:*type1*) node_dimension2 face_dimension3:node_dimension3 (padding:*type3*)                                   |
-|face3_dimensions             |face_dimension1:node_dimension1 (padding:*type1*) face_dimension2:node_dimension2 (padding:*type2*) node_dimension3                                   |
-|node_coordinates             |                                                                                                                                                      |
-|edge *i*_coordinates          |                                                                                                                                                      |
-|face *i*_coordinates          |                                                                                                                                                      |
-|volume_coordinates           |                                                                                                                                                      |
+| Optional attributes   | Default value                                                                                                         |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| edge1_dimensions      | face*dimension1:node_dimension1 (padding:\_type1*) node_dimension2 node_dimension3                                    |
+| edge2_dimensions      | node*dimension1 face_dimension2:node_dimension2 (padding:\_type2*) node_dimension3                                    |
+| edge3_dimensions      | node*dimension1 node_dimension2 face_dimension3:node_dimension3 (padding:\_type3*)                                    |
+| face1_dimensions      | node*dimension1 face_dimension2:node_dimension2 (padding:\_type2*) face*dimension3:node_dimension3 (padding:\_type3*) |
+| face2_dimensions      | face*dimension1:node_dimension1 (padding:\_type1*) node*dimension2 face_dimension3:node_dimension3 (padding:\_type3*) |
+| face3_dimensions      | face*dimension1:node_dimension1 (padding:\_type1*) face*dimension2:node_dimension2 (padding:\_type2*) node_dimension3 |
+| node_coordinates      |                                                                                                                       |
+| edge _i_\_coordinates |                                                                                                                       |
+| face _i_\_coordinates |                                                                                                                       |
+| volume_coordinates    |                                                                                                                       |
 
 Notes:
 
@@ -326,7 +325,7 @@ The edge_dimension attributes are not needed.
 ### ROMS
 
 ROMS uses also a C-grid, but it uses on the output file different dimensions for each staggered location.
-In this case we need all attributes defined above including the edge*i*_dimension attributes.
+In this case we need all attributes defined above including the edge*i*\_dimension attributes.
 
 ```java
 netcdf sed023_last {
