@@ -3,7 +3,7 @@
 !.pixi/config.toml
 
 # TODO: Remove later once stable
-pixi.lock 
+pixi.lock
 
 # mkdocs build output
 site

@@ -1,8 +1,5 @@
 ---
 title: SGRID Conventions (v0.3)
-tags: [sgrid]
-sidebar: mydoc_sidebar
-type: homepage
 ---
 
 Following the success of the [UGRID conventions](https://github.com/ugrid-conventions/ugrid-conventions),

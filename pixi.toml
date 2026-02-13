@@ -34,5 +34,3 @@ lint = { cmd = "pre-commit run --all-files", description = "Run all pre-commit l
 pre-commit = { features = ["pre-commit"] }
 docs = { features = ["docs"] }
 notebooks = { features = ["notebooks", "tikz-magic"] }
-
-
