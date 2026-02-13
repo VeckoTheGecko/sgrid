@@ -24,5 +24,6 @@ jobs:
       - name: Build the documentation
         run: pixi run docs-build
       - name: Deploy documentation (only if on main)
-        if: github.event_name == 'push' && github.ref_name == 'main'
+        # if: github.event_name == 'push' && github.ref_name == 'main'
+        if: false # TODO: Update when no longer fork
         run: pixi run -e docs mkdocs gh-deploy --force

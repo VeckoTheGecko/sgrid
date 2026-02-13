@@ -1,5 +1,5 @@
 site_name: Staggered Grid data model (SGRID)
-site_url: http://VeckoTheGecko.github.io/sgrid # TODO: Update
+site_url: http://VeckoTheGecko.github.io/sgrid # TODO: Update when no longer fork
 theme:
   name: material
 markdown_extensions:
