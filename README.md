@@ -1,10 +1,9 @@
-SGRID: Conventions for Staggered Grids
-======================================
+# SGRID: Conventions for Staggered Grids
 
 NetCDF files using this convention can be be given the global attribute `Conventions = 'CF-1.6, SGRID-0.3'` if they are CF- and SGRID-compliant,
 or just `Conventions = 'SGRID-0.3'` if they are not CF-compliant.
 
-* [Version 0.3](http://sgrid.github.io/sgrid/)
+- [Version 0.3](http://sgrid.github.io/sgrid/)
 
 This document is a standard for storing staggered grid model data in a Unidata Network Common Data Form (NetCDF) file.
 The standard was initially developed by Bert Jagers (Deltares),
@@ -12,7 +11,16 @@ following the pattern of the UGRID conventions.
 
 People who have contributed to this standard:
 
-* Bert Jagers
-* Rich Signell
-* Filipe Fernandes
-* Chris Barker
+- Bert Jagers
+- Rich Signell
+- Filipe Fernandes
+- Chris Barker
+
+## Development
+
+This project uses [Pixi](https://pixi.prefix.dev/latest/installation/). Once installed, run:
+
+```shell
+pixi install
+pixi task list
+```

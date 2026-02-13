@@ -1,0 +1,9 @@
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+# TODO: Remove later once stable
+pixi.lock
+
+# mkdocs build output
+site
