@@ -7,7 +7,7 @@ on:
 permissions:
   contents: write
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +16,9 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - uses: prefix-dev/setup-pixi@v0.9.4
-        # with:
+        with:
+          environments: >-
+            docs
         #   cache: true
         #   cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
       - name: Build the documentation
