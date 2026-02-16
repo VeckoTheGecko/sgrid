@@ -1,0 +1,74 @@
+
+netcdf trim-f34 {
+dimensions:
+    NMAX = 22 ;
+    NMAXZ = 22 ;
+    MMAX = 15 ;
+    MMAXZ = 15 ;
+    KMAX = 5 ;
+    KMAX1 = 6 ;
+    time = UNLIMITED ; // (6 currently)
+variables:
+    int KMAX(KMAX) ;
+    int KMAX1(KMAX1) ;
+    float XCOR(MMAX, NMAX) ;
+        XCOR:standard_name = "projection_x_coordinate" ;
+        XCOR:long_name = "X-coordinate of grid points" ;
+        XCOR:units = "m" ;
+    float YCOR(MMAX, NMAX) ;
+        YCOR:standard_name = "projection_y_coordinate" ;
+        YCOR:long_name = "Y-coordinate of grid points" ;
+        YCOR:units = "m" ;
+    float XZ(MMAXZ, NMAXZ) ;
+        XZ:standard_name = "projection_x_coordinate" ;
+        XZ:long_name = "X-coordinate of cell centres" ;
+        XZ:units = "m" ;
+    float YZ(MMAXZ, NMAXZ) ;
+        YZ:standard_name = "projection_y_coordinate" ;
+        YZ:long_name = "Y-coordinate of cell centres" ;
+        YZ:units = "m" ;
+    float THICK(KMAX) ;
+        THICK:long_name = "Fraction part of layer thickness of total water-height" ;
+        THICK:units = "[ .01*% ]" ;
+    float time(time) ;
+        time:standard_name = "time" ;
+        time:long_name = "time" ;
+        time:units = "seconds since 1990-08-05 00:00:00" ;
+    float S1(time, MMAXZ, NMAXZ) ;
+        S1:long_name = "Water-level in zeta point" ;
+        S1:units = "m" ;
+        S1:coordinates = "XZ YZ" ;
+        S1:grid = "grid" ; // SGRID attribute
+        S1:location = "face" ; // SGRID attribute
+    float U1(time, KMAX, MMAX, NMAXZ) ;
+        U1:long_name = "U-velocity per layer in U-point (Eulerian)" ;
+        U1:units = "m/s" ;
+        U1:grid = "grid" ; // SGRID attribute
+        U1:location = "edge1" ; // SGRID attribute
+    float V1(time, KMAX, MMAXZ, NMAX) ;
+        V1:long_name = "V-velocity per layer in V-point (Eulerian)" ;
+        V1:units = "m/s" ;
+        V1:grid = "grid" ; // SGRID attribute
+        V1:location = "edge2" ; // SGRID attribute
+    float W(time, KMAX1, MMAXZ, NMAXZ) ;
+        W:long_name = "W-omega per layer in zeta point" ;
+        W:units = "m/s" ;
+        W:grid = "grid" ; // SGRID attribute
+        W:location = "face" ; // SGRID attribute
+// SGRID variable
+    int grid ;
+        grid:cf_role = grid_topology
+        grid:topology_dimension = 2 ;
+        grid:node_dimensions = "MMAX NMAX" ;
+        grid:face_dimensions = "MMAXZ: MMAX (padding: low) NMAXZ: NMAX (padding: low)" ;
+        grid:node_coordinates = "XCOR YCOR" ;
+        grid:face_coordinates = "XZ YZ" ;
+        grid:vertical_dimensions = "KMAX: KMAX1 (padding: none)" ;
+
+// global attributes:
+        :title = "Het Friesche Zeegaatje" ;
+
+data:
+ KMAX = 1, 2, 3, 4, 5 ;
+ KMAX1 = 0, 1, 2, 3, 4, 5 ;
+}

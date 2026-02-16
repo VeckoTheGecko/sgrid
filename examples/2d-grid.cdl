@@ -1,0 +1,39 @@
+dimensions:
+    time = UNLIMITED ;
+    inode = 10 ;
+    jnode = 20 ;
+    icell = 9 ;
+    jcell = 19 ;
+
+variables:
+    char time(time) ;
+        time:standard_name = "time" ;
+        time:long_name = "time" ;
+        time:units = "seconds since 2015-01-01 00:00:00" ;
+    float u(time, jcell, inode) ;
+        u:description = "x-velocity" ;
+        u:units = "m s-1" ;
+        u:grid = "MyGrid" ;
+        u:location = "edge1" ;
+    float v(time, jnode, icell) ;
+        u:description = "y-velocity" ;
+        u:units = "m s-1" ;
+        u:grid = "MyGrid" ;
+        u:location = "edge2" ;
+    float c(time, jcell, icell) ;
+        c:description = "some concentration" ;
+        c:grid = "MyGrid" ;
+        c:location = "face" ;
+    float node_lat(jnode, inode) ;
+        node_lat:standard_name = "latitude" ;
+        node_lat:units = "degree_north" ;
+    float node_lon(jnode, inode) ;
+        node_lon:standard_name = "longitude" ;
+        node_lon:units = "degree_east" ;
+
+    int MyGrid ;
+        grid:cf_role = grid_topology
+        grid:topology_dimension = 2 ;
+        grid:node_dimensions = "inode jnode" ;
+        grid:face_dimensions = "icell: inode (padding: none) jcell: jnode (padding: none)" ;
+        grid:node_coordinates = "node_lon node_lat" ;

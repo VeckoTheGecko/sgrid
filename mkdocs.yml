@@ -6,3 +6,5 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.snippets: # Allows to render Markdowns from other directories
+      check_paths: true

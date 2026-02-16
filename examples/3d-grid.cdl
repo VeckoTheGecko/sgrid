@@ -1,0 +1,49 @@
+dimensions:
+    time = UNLIMITED ;
+    inode = 10 ;
+    jnode = 20 ;
+    knode = 30 ;
+    iface = 9 ;
+    jface = 19 ;
+    kface = 29 ;
+
+variables:
+    char time(time) ;
+        time:standard_name = "time" ;
+        time:long_name = "time" ;
+        time:units = "seconds since 2015-01-01 00:00:00" ;
+    float u(time, kface, jface, inode) ;
+        u:description = "x-velocity" ;
+        u:units = "m s-1" ;
+        u:grid = "MyGrid3" ;
+        u:location = "face1" ;
+    float v(time, kface, jnode, iface) ;
+        u:description = "y-velocity" ;
+        u:units = "m s-1" ;
+        u:grid = "MyGrid3" ;
+        u:location = "face2" ;
+    float w(time, knode, jface, iface) ;
+        u:description = "z-velocity" ;
+        u:units = "m s-1" ;
+        u:grid = "MyGrid3" ;
+        u:location = "face3" ;
+    float c(time, kface, jface, iface) ;
+        c:description = "some concentration" ;
+        c:grid = "MyGrid3" ;
+        c:location = "volume" ;
+    float node_lat(knode, jnode, inode) ;
+        node_lat:standard_name = "latitude" ;
+        node_lat:units = "degree_north" ;
+    float node_lon(knode, jnode, inode) ;
+        node_lon:standard_name = "longitude" ;
+        node_lon:units = "degree_east" ;
+    float node_elevation(knode, jnode, inode) ;
+        node_elevation:description = "elevation" ;
+        node_elevation:units = "m" ;
+
+    int MyGrid3 ;
+        grid:cf_role = grid_topology
+        grid:topology_dimension = 3 ;
+        grid:node_dimensions = "inode jnode knode" ;
+        grid:volume_dimensions = "iface: inode (padding: none) jface: jnode (padding: none) kface: knode (padding: none)" ;
+        grid:node_coordinates = "node_lon node_lat node_elevation" ;
