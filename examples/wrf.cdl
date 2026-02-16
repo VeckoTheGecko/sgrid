@@ -1,0 +1,57 @@
+netcdf wrfout_v2_Lambert {
+dimensions:
+    Time = UNLIMITED ; // (13 currently)
+    DateStrLen = 19 ;
+    west_east = 73 ;
+    south_north = 60 ;
+    west_east_stag = 74 ;
+    bottom_top = 27 ;
+    south_north_stag = 61 ;
+    bottom_top_stag = 28 ;
+
+variables:
+    char Times(Time, DateStrLen) ;
+    float U(Time, bottom_top, south_north, west_east_stag) ;
+        U:description = "x-wind component" ;
+        U:units = "m s-1" ;
+        U:grid = "grid" ; // SGRID attribute
+        U:location = "edge1" ; // SGRID attribute
+    float V(Time, bottom_top, south_north_stag, west_east) ;
+        V:description = "y-wind component" ;
+        V:units = "m s-1" ;
+        V:grid = "grid" ; // SGRID attribute
+        U:location = "edge2" ; // SGRID attribute
+    float W(Time, bottom_top_stag, south_north, west_east) ;
+        W:description = "z-wind component" ;
+        W:units = "m s-1" ;
+        W:grid = "grid" ; // SGRID attribute
+        W:location = "face" ; // SGRID attribute
+    float T(Time, bottom_top, south_north, west_east) ;
+        T:description = "perturbation potential temperature (theta-t0)" ;
+        T:units = "K" ;
+        W:grid = "grid" ; // SGRID attribute
+        W:location = "face" ; // SGRID attribute
+    float XLAT(Time, south_north, west_east) ;
+        XLAT:description = "LATITUDE, SOUTH IS NEGATIVE" ;
+        XLAT:units = "degree_north" ;
+    float XLONG(Time, south_north, west_east) ;
+        XLONG:description = "LONGITUDE, WEST IS NEGATIVE" ;
+        XLONG:units = "degree_east" ;
+    float ZNU(Time, bottom_top) ;
+        ZNU:description = "eta values on half (mass) levels" ;
+        ZNU:units = "" ;
+    float ZNW(Time, bottom_top_stag) ;
+        ZNW:description = "eta values on full (w) levels" ;
+        ZNW:units = "" ;
+// SGRID variable
+    int grid ;
+        grid:cf_role = grid_topology
+        grid:topology_dimension = 2 ;
+        grid:node_dimensions = "west_east_stag south_north_stag bottom_top_stag" ;
+        grid:face_dimensions = "west_east: west_east_stag (padding: none) south_north: south_north_stag (padding: none)" ;
+        grid:face_coordinates = "XLONG XLAT" ; // what to do with ZNU/ZNW vertical coordinates?
+        grid:vertical_dimensions = "bottom_top: bottom_top_stag (padding: none)" ;
+
+// global attributes:
+        :TITLE = "OUTPUT FROM WRF V2.0 MODEL" ;
+}

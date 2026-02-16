@@ -1,0 +1,92 @@
+netcdf sed023_last {
+dimensions:
+    ocean_time = UNLIMITED ; // (1 currently)
+    s_w = 21 ;
+    eta_rho = 60 ;
+    xi_rho = 160 ;
+    tracer = 10 ;
+    s_rho = 20 ;
+    eta_u = 60 ;
+    xi_u = 159 ;
+    eta_v = 59 ;
+    xi_v = 160 ;
+    eta_psi = 59 ;
+    xi_psi = 159 ;
+variables:
+    double lat_psi(eta_psi, xi_psi) ;
+        lat_psi:long_name = "latitude of PSI-points" ;
+        lat_psi:units = "degree_north" ;
+    double lat_rho(eta_rho, xi_rho) ;
+        lat_rho:long_name = "latitude of RHO-points" ;
+        lat_rho:units = "degree_north" ;
+    double lat_u(eta_u, xi_u) ;
+        lat_u:long_name = "latitude of U-points" ;
+        lat_u:units = "degree_north" ;
+    double lat_v(eta_v, xi_v) ;
+        lat_v:long_name = "latitude of V-points" ;
+        lat_v:units = "degree_north" ;
+    double lon_psi(eta_psi, xi_psi) ;
+        lon_psi:long_name = "longitude of PSI-points" ;
+        lon_psi:units = "degree_east" ;
+    double lon_rho(eta_rho, xi_rho) ;
+        lon_rho:long_name = "longitude of RHO-points" ;
+        lon_rho:units = "degree_east" ;
+    double lon_u(eta_u, xi_u) ;
+        lon_u:long_name = "longitude of U-points" ;
+        lon_u:units = "degree_east" ;
+    double lon_v(eta_v, xi_v) ;
+        lon_v:long_name = "longitude of V-points" ;
+        lon_v:units = "degree_east" ;
+    double ocean_time(ocean_time) ;
+        ocean_time:long_name = "time since initialization" ;
+        ocean_time:units = "seconds since 1968-05-23 00:00:00 GMT" ;
+        ocean_time:calendar = "gregorian" ;
+    double s_rho(s_rho) ;
+        s_rho:long_name = "S-coordinate at RHO-points" ;
+        s_rho:valid_min = -1. ;
+        s_rho:valid_max = 0. ;
+        s_rho:standard_name = "ocean_s_coordinate" ;
+        s_rho:formula_terms = "s: s_rho eta: zeta depth: h a: theta_s b: theta_b depth_c: hc" ;
+    double s_w(s_w) ;
+        s_w:long_name = "S-coordinate at W-points" ;
+        s_w:valid_min = -1. ;
+        s_w:valid_max = 0. ;
+        s_w:standard_name = "ocean_s_coordinate" ;
+        s_w:formula_terms = "s: s_w eta: zeta depth: h a: theta_s b: theta_b depth_c: hc" ;
+    float u(ocean_time, s_rho, eta_u, xi_u) ;
+        u:long_name = "u-momentum component" ;
+        u:units = "meter second-1" ;
+        u:coordinates = "lat_u lon_u" ;
+        u:grid = "grid" ; // SGRID attribute
+        u:location = "edge1" ; // SGRID attribute
+    float v(ocean_time, s_rho, eta_v, xi_v) ;
+        v:long_name = "v-momentum component" ;
+        v:units = "meter second-1" ;
+        v:coordinates = "lat_v lon_v" ;
+        v:grid = "grid" ; // SGRID attribute
+        v:location = "edge2" ; // SGRID attribute
+    float zeta(ocean_time, eta_rho, xi_rho) ;
+        zeta:long_name = "free-surface" ;
+        zeta:units = "meter" ;
+        zeta:time = "ocean_time" ;
+        zeta:coordinates = "lat_rho lon_rho" ;
+        zeta:grid = "grid" ; // SGRID attribute
+        zeta:location = "face" ; // SGRID attribute
+// SGRID variable
+    int grid ;
+        grid:cf_role = grid_topology
+        grid:topology_dimension = 2 ;
+        grid:node_dimensions = "xi_psi eta_psi" ;
+        grid:face_dimensions = "xi_rho: xi_psi (padding: both) eta_rho: eta_psi (padding: both)" ;
+        grid:edge1_dimensions = "xi_u: xi_psi eta_u: eta_psi (padding: both)" ;
+        grid:edge2_dimensions = "xi_v: xi_psi (padding: both) eta_v: eta_psi" ;
+        grid:node_coordinates = "lon_psi lat_psi" ;
+        grid:face_coordinates = "lon_rho lat_rho" ;
+        grid:edge1_coordinates = "lon_u lat_u" ;
+        grid:edge2_coordinates = "lon_v lat_v" ;
+        grid:vertical_dimensions = "s_rho: s_w (padding: none)" ;
+
+// global attributes:
+        :Conventions = "CF-1.0" ;
+        :title = "ROMS/TOMS 2.2 - Adria02 Uber Run" ;
+}
